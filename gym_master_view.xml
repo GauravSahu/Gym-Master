@@ -1,0 +1,141 @@
+<openerp>
+    <data>
+          <!--Member form view -->
+        <record model="ir.ui.view" id="view_member_form">
+            <field name="name">gym.member.form</field>
+            <field name="model">gym.member</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Gym Member">
+                    <header>
+                       <button name="name" string="Hold Membership" />
+                    </header>
+                    <sheet>
+                          <field name="image_medium" widget='image' class="oe_left oe_avatar"/>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+
+                            <label for="category_ids" class="oe_edit_only" groups="base.group_hr_user"/>
+                            <field name="category_ids" widget="many2many_tags" placeholder="e.g. Part Time" groups="base.group_hr_user"/>
+                            <label for="work_email" class="oe_edit_only"/>
+                            <field name="work_email" widget="email"/>
+                            <label for="work_phone" class="oe_edit_only"/>
+                            <field name="work_phone"/>
+                        </div>
+                        <div class="oe_right oe_button_box" name="button_box">
+                            <!-- Put here related buttons -->
+                             <button name="%(gym_master.action_hold_membership_wizard)d" type="action" string="Hold Membership" />
+                        </div>
+                        <notebook>
+                            <page string="Public Information">
+                                <group>
+                                    <group string="Contact Information">
+                                        <field name="address_id" on_change="onchange_address_id(address_id)"
+                                            context="{'show_address': 1, 'default_customer': False}"
+                                            options='{"always_reload": True, "highlight_first_line": True}'/>
+                                        <field name="mobile_phone"/>
+                                        <field name="work_location"/>
+                                    </group>
+                                    <group string="Position">
+                                        <field name="department_id" on_change="onchange_department_id(department_id)"/>
+                                        <field name="job_id"/>
+                                        <field name="parent_id"/>
+                                        <field name="coach_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="company_id" groups="base.group_multi_company" on_change="onchange_company(company_id)"/>
+                                        <field name="user_id" on_change="onchange_user(user_id)" string="Related User"
+                                            context="{'default_groups_ref': ['base.group_user']}"/>
+                                    </group>
+                                </group>
+                                <field name="notes" placeholder="Other Information ..." colspan="4"/>
+                            </page>
+                            <page string="Personal Information" groups="base.group_hr_user">
+                                <group>
+                                    <group string="Citizenship &amp; Other Info">
+                                        <field name="country_id" options='{"no_open": True}'/>
+                                        <field name="identification_id" groups="base.group_hr_user"/>
+                                        <field name="passport_id" groups="base.group_hr_user"/>
+                                        <field name="bank_account_id"/>
+                                        <field name="otherid" groups="base.group_hr_user"/>
+                                    </group>
+                                    <group string="Contact Information">
+                                        <field name="address_home_id"
+                                            context="{'show_address': 1, 'default_customer': False}"
+                                            options='{"always_reload": True, "highlight_first_line": True}'/>
+                                    </group>
+                                    <group string="Status">
+                                        <field name="gender"/>
+                                        <field name="marital"/>
+                                    </group>
+                                    <group string="Birth">
+                                        <field name="birthday"/>
+                                    </group>
+                                </group>
+                            </page>
+                        <page string="Membership">
+                        <separator string="Add Membership"/>
+                          <field name="membership_line" colspan="4" string="Add Membership" nolabel="1">
+                             <form string="Add Membership" version="7.0">
+                              <sheet>
+                               <group>
+                                    <field name="program_group" class="oe_inline"/>
+                                    <field name="Program" class="oe_inline"/>
+                                    <field name="Program_price" class="oe_inline"/>
+                                </group>
+                                  <group>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="sign_up"/>
+                                    <field name="visit"/>
+                                 </group>
+                              </sheet>
+                        </form>
+                        <tree string="Add Membership">
+                            <field name="program_group" class="oe_inline"/>
+                            <field name="Program" class="oe_inline"/>
+                            <field name="Program_price" class="oe_inline"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </tree>
+                    </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form> 
+            </field>
+        </record>
+        <record id="view_member_tree" model="ir.ui.view">
+            <field name="name">gym.member.tree</field>
+            <field name="model">gym.member</field>
+            <field name="arch" type="xml">
+                <tree string="Gym Member" fonts="bold:message_unread==True">
+                    <field name="name"/>
+                    <field name="work_phone"/>
+                    <field name="work_email"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="parent_id"/>
+                    <field name="coach_id" invisible="1"/>
+                    <field name="message_unread" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_member">
+            <field name="name">Member</field>
+            <field name="res_model">gym.member</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem name="GymMaster/GymMaster" id="menu_master" action="action_member"/>
+        <menuitem name="Member" id="menu_member_item" parent="menu_master" action="action_member"/>
+    </data>
+</openerp>

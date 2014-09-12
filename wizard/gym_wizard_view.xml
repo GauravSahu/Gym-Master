@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+         <!-- ========================= Hold Membership Wizard  ==========================================-->
+        <record id="view_hold_membership_wizard" model="ir.ui.view">
+            <field name="name">hold.membership.form</field>
+            <field name="model">hold.membership</field>
+            <field name="arch" type="xml">
+                <form string="Hold Membership">
+                    <group colspan="4" col="4">
+                     
+                    </group>
+                   <footer>
+                        <button name="button_confirm" string="Submit Data" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="action_hold_membership_wizard" model="ir.actions.act_window">
+            <field name="name">Hold Membership</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hold.membership</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_hold_membership_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>
